@@ -6,6 +6,10 @@ const knex = require("knex")({
     port: 5432,
     password: "VOG62LsaKuIC",
     database: "neondb",
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      require: true,
+    },
   },
 });
 
