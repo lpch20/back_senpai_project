@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-const topTwenty = require("./routes/topTwentyRoutes");
+const songs = require("./routes/songsRoutes");
 const register = require("./routes/registerRouter");
 
 
@@ -11,8 +11,9 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors()); // para conectar localhost de front y back
 
-app.use("/api", topTwenty);
+app.use("/api", songs);
 app.use("/api", register);
+
 
 
 app.get("/api/*", (req, res) => {
