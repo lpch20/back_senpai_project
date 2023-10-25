@@ -1,4 +1,5 @@
 const knex = require("../config/knexfile");
+const bcrypt = require("bcryptjs");
 
 exports.verifyMail = async (req, res) => {
   const emailValue = req.query.email;
@@ -47,6 +48,12 @@ exports.verifyUser = async (req, res) => {
 exports.userAdd = async (req, res) => {
   const { email, username, password } = req.body;
   console.log(email, username, password);
+
+  const salt = await bcrypt.genSalt(10)
+  console.log(salt)
+
+  const passwordEncrypted = await bcrypt.hash(password, salt)
+
   try {
     const validation = await knex("public.users")
       .select("email", "username", "password")
@@ -60,7 +67,7 @@ exports.userAdd = async (req, res) => {
 
     await knex("public.users").insert({
       email: email,
-      password: password,
+      password: passwordEncrypted,
       username: username,
     });
 
