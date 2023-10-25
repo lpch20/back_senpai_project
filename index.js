@@ -5,6 +5,9 @@ const cors = require("cors");
 const app = express();
 const songs = require("./routes/songsRoutes");
 const register = require("./routes/registerRouter");
+const weather = require("./routes/contextualMusicRoutes");
+const mood = require("./routes/contextualMusicRoutes");
+const activity = require("./routes/contextualMusicRoutes");
 
 
 app.use(express.json());
@@ -13,6 +16,9 @@ app.use(cors()); // para conectar localhost de front y back
 
 app.use("/api", songs);
 app.use("/api", register);
+app.use("/api", mood);
+app.use("/api", activity);
+app.use("/api", weather);
 
 
 
