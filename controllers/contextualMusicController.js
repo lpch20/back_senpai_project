@@ -5,7 +5,6 @@ exports.allActivity = async (req, res) => {
     const activitysDb = await knex("activity").select("*");
 
     res.status(200).json(activitysDb);
-    console.log(res)
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -39,35 +38,36 @@ exports.allGender = async (req, res) => {
 };
 
 exports.contextualPlaylist = async (req, res) => {
-  const dataTosend = req.body;
+  const { mood, weather, activity, gender } = req.body;
 
-  console.log(dataTosend)
+
   try {
-    const playlist = await knex("songs").select("id_song")
-    .where('mood', mood.id_mood)
-    // .where('weather', weather.id_weather)
-    // .where('activity', activity.id_activity)
-    // .where('gender', gender.id_gender)
+    const playlistSong = await knex("songs")
+      .select("id_song")
+      .orWhere("mood_id", mood)
+      .orWhere("weather_id", weather)
+      .orWhere("activity_id", activity)
+      .whereIn("gender_id", gender);
 
-    // if (!playlist) {
-    //   res.status(400).json({
-    //     error: "Playlist no encontrada",
-    //   });
-    //   return;
-    // }
+      console.log(req.user)
 
-    await knex("songs_playlist").insert({
-      songs_id_song: playlist.id_song
+    const playlistInsert = await knex("playlist").insert({
+      name: mood,
+      user_id: req.user.id_user
     })
+    .returning('id_playlist');
 
-  //   await knex("public.usuarios").insert({
-  //     email: email,
-  //     username: username,
-  //     password: passwordEncrypted 
-  //  })
+    const playlistId = playlistInsert[0].id_playlist
 
-    res.status(200).json({message: "playlist creada"})
+    for (const song of playlistSong) {
+      await knex("songs_playlist").insert({
+        songs_id_song: song.id_song,
+        playlist_id_playlist: playlistId 
+      });
+    }
+
+    res.status(200).json({ message: "playlist creada" });
   } catch (error) {
-    res.status(400).json({error: "Error en crear playlist", error})
+    res.status(500).json({ error: "Error en crear playlist", message: error.message });
   }
 };

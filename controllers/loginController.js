@@ -57,12 +57,12 @@ exports.loginPassword = async (req, res) => {
     if (email === undefined) {
       user = await knex("public.users")
         .where("username", username)
-        .select("email", "username", "password")
+        .select("*")
         .first();
     } else {
       user = await knex("public.users")
         .where("email", email)
-        .select("email", "username", "password")
+        .select("*")
         .first();
     }
 
@@ -82,9 +82,12 @@ exports.loginPassword = async (req, res) => {
       return;
     }
 
+    console.log("holaaaa", user)
+
     const token = jsonwebtoken.sign(
       {
-        password: user.password,
+        id_user: user.id_user,
+        username: user.username,
       },
       "mi firma"
     );
