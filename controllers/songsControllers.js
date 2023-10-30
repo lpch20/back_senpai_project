@@ -4,6 +4,7 @@ exports.allSongs = async (req, res) => {
   try {
     const songsDb = await knex("songs")
       .select(
+        "id_song",
         "songs.name as name",
         "songs.artist_id as artist_id",
         "artist.name as artist"
