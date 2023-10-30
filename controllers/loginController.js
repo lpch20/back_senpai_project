@@ -17,7 +17,7 @@ exports.loginUser = async (req, res) => {
     } else {
       res.status(400).json({
         error:
-          "No existe el usuario con el que quiere ingresar, porfavor registrate",
+          "No existe el usuario con el que\nquiere ingresar, porfavor registrate",
       });
     }
   } catch (error) {

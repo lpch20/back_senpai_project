@@ -8,7 +8,9 @@ const register = require("./routes/registerRouter");
 
 const contextualPlaylist = require("./routes/contextualMusicRoutes");
 
-const login = require("./routes/loginRouter");
+
+const login = require("./routes/loginRouter")
+
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -20,6 +22,7 @@ app.use("/api", register);
 app.use("/api", contextualPlaylist);
 
 app.use("/api", login);
+app.use("/api", cupidoMusical);
 
 app.get("/api/*", (req, res) => {
   res
