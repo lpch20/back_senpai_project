@@ -1,7 +1,15 @@
 const express = require("express");
-const { userAdd, verifyMail, verifyUser } = require("../controllers/registerController");
+const {
+  userAdd,
+  verifyMail,
+  verifyUser,
+} = require("../controllers/registerController");
 const { runValidation } = require("../middlewares/validators/indexvalidator");
-const {validatorMail,username, password} = require("../middlewares/validators/registerValidator");
+const {
+  validatorMail,
+  username,
+  password,
+} = require("../middlewares/validators/registerValidator");
 
 const router = express.Router();
 

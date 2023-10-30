@@ -52,7 +52,7 @@ exports.loginPassword = async (req, res) => {
   const { password, username, email } = req.body;
 
   let user;
-  
+
   try {
     if (email === undefined) {
       user = await knex("public.users")
@@ -82,7 +82,7 @@ exports.loginPassword = async (req, res) => {
       return;
     }
 
-    console.log("holaaaa", user)
+    console.log("holaaaa", user);
 
     const token = jsonwebtoken.sign(
       {
@@ -95,5 +95,14 @@ exports.loginPassword = async (req, res) => {
     res.status(200).json({ message: "Acceso correcto", token: token });
   } catch (error) {
     res.status(500).json({ message: "Error al ingresar", error });
+  }
+};
+
+exports.userData = async (req, res) => {
+  try {
+    const user = await knex("users").select("users.username as name");
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
