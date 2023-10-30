@@ -9,6 +9,6 @@ router.get("/weather", allWeather);
 router.get("/mood", allMood);
 router.get("/gender", allGender);
 router.post("/contextualPlaylist", verifyToken, contextualPlaylist);
-router.get("/playlist", verifyToken, getPlaylist);
+router.get("/playlist", getPlaylist);
 
 module.exports = router;

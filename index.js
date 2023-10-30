@@ -7,6 +7,7 @@ const songs = require("./routes/songsRoutes");
 const register = require("./routes/registerRouter");
 
 const contextualPlaylist = require("./routes/contextualMusicRoutes");
+const cupidoMusical = require("./routes/cupidoMusicalRouter");
 
 
 const login = require("./routes/loginRouter")

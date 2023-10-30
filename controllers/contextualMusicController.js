@@ -72,38 +72,30 @@ exports.contextualPlaylist = async (req, res) => {
       .status(500)
       .json({ error: "Error en crear playlist", message: error.message });
   }
-  exports.getPlaylist = async (req, res) => {
-    try {
-      const playListDb = await knex("songs_playlist")
-        .select("*")
-        .join("songs", "songs_playlist.songs_id_song", "=", "songs.id_song")
-        .join(
-          "playlist",
-          "songs_playlist.playlist_id_playlist",
-          "=",
-          "playlist.id_playlist"
-        );
-
-      res.status(200).json(playListDb);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  };
 };
+
 exports.getPlaylist = async (req, res) => {
   try {
-    const playListDb = await knex("songs_playlist")
-      .select("*")
-      .join("songs", "songs_playlist.songs_id_song", "=", "songs.id_song")
-      .join(
-        "playlist",
-        "songs_playlist.playlist_id_playlist",
-        "=",
-        "playlist.id_playlist"
-      );
+    const highestPlaylistId = await knex("playlist")
+      .max("id_playlist as maxId")
+      .first();
 
-    res.status(200).json(playListDb);
+    if (highestPlaylistId) {
+      const playlistInfo = await knex("playlist")
+        .select("playlist.*", "songs.*", "artist.name as artist_name")
+        .where("playlist.id_playlist", highestPlaylistId.maxId)
+        .join("songs_playlist", "playlist.id_playlist", "=", "songs_playlist.playlist_id_playlist")
+        .join("songs", "songs_playlist.songs_id_song", "=", "songs.id_song")
+        .join("artist", "artist.id_artist", "=", "songs.artist_id");
+
+      console.log("Playlist con el ID más alto:", playlistInfo);
+      res.status(200).json(playlistInfo);
+    } else {
+      res.status(404).json({ error: "No se encontró ninguna playlist" });
+    }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+
+
