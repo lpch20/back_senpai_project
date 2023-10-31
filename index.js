@@ -12,6 +12,7 @@ const cupidoMusical = require("./routes/cupidoMusicalRouter");
 
 const login = require("./routes/loginRouter")
 
+const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -36,6 +37,6 @@ app.get("/api/*", (req, res) => {
 
 //---------------- LEVANTAMOS EL SERVIDOR EN EL PUERTO 8000-----------------
 
-app.listen(8000, () => {
+app.listen(port, () => {
   console.log(`servidor levantado y escuchando en el puerto 8000`); // las backtics sirven para poder llamar otros archivos
 });
