@@ -14,6 +14,6 @@ router.get("/verifyDataMail", loginMail);
 router.get("/verifyDataUser", loginUser);
 router.post("/verifyDataPassword", loginPassword);
 router.get("/dataUser", verifyToken, userData);
-// router.get("/userName", verifyToken, userName);
+
 
 module.exports = router;

@@ -4,11 +4,11 @@ const { verifyToken } = require("../middlewares/validators/tokenvalidator");
 
 const router = express.Router();
 
-router.get("/activity", allActivity);
-router.get("/weather", allWeather);
-router.get("/mood", allMood);
-router.get("/gender", allGender);
+router.get("/activity", verifyToken, allActivity);
+router.get("/weather", verifyToken, allWeather);
+router.get("/mood", verifyToken, allMood);
+router.get("/gender", verifyToken, allGender);
 router.post("/contextualPlaylist", verifyToken, contextualPlaylist);
-router.get("/playlist", getPlaylist);
+router.get("/playlist", verifyToken, getPlaylist);
 
 module.exports = router;
