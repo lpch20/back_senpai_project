@@ -2,14 +2,14 @@ const knex = require("../config/knexfile");
 
 exports.cupidoPlaylist = async (req, res) => {
     const  dataToSend  = req.body;
-  
+    const username = req.user.username
     try {
       const playlistSong = await knex("songs")
         .select("id_song")
         .whereIn("id_song", dataToSend);
   
       const playlistInsert = await knex("playlist").insert({
-        name: "PlaylistCreation",
+        name: "Cupido Playlist de " + username,
         user_id: req.user.id_user
       })
       .returning('id_playlist');

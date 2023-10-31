@@ -27,8 +27,5 @@ const username = [
     .not()
     .isEmpty()
     .withMessage("El nombre de usuario es un campo requerido")
-    .isLength({ min: 8 })
-    .withMessage("El usuario debe tener al menos 8 caracteres"),
 ];
-
 module.exports = { validatorMail, password, username };

@@ -39,6 +39,7 @@ exports.allGender = async (req, res) => {
 
 exports.contextualPlaylist = async (req, res) => {
   const { mood, weather, activity, gender } = req.body;
+  const username = req.user.username
 
   try {
     const playlistSong = await knex("songs")
@@ -52,7 +53,7 @@ exports.contextualPlaylist = async (req, res) => {
 
     const playlistInsert = await knex("playlist")
       .insert({
-        name: mood,
+        name: "Contextual Playlist de " + username,
         user_id: req.user.id_user,
       })
       .returning("id_playlist");
