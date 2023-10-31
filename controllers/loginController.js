@@ -99,10 +99,31 @@ exports.loginPassword = async (req, res) => {
 };
 
 exports.userData = async (req, res) => {
+  const user_id = req.user.id_user;
+  const username = req.user.username;
   try {
-    const user = await knex("users").select("users.username as name");
-    res.status(200).json(user);
+    const playlistInfo = await knex("playlist")
+      .select("playlist.name", "playlist.userid")
+      .where("playlist.user_id", user_id)
+      .join(
+        "songs_playlist",
+        "playlist.id_playlist",
+        "=",
+        "songs_playlist.playlist_id_playlist"
+      )
+      .join("songs", "songs_playlist.songs_id_song", "=", "songs.id_song")
+      .join("artist", "artist.id_artist", "=", "songs.artist_id");
+
+    res.status(200).json(playlistInfo);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+// exports.userName = async (req, res) => {
+//   const username = req.user.username;
+//   try {
+//     res.status(200).json(username);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };

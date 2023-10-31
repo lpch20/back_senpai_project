@@ -4,13 +4,16 @@ const {
   loginUser,
   loginPassword,
   userData,
+  userName,
 } = require("../controllers/loginController");
+const { verifyToken } = require("../middlewares/validators/tokenvalidator");
 
 const router = express.Router();
 
 router.get("/verifyDataMail", loginMail);
 router.get("/verifyDataUser", loginUser);
 router.post("/verifyDataPassword", loginPassword);
-router.get("/dataUser", userData);
+router.get("/dataUser", verifyToken, userData);
+// router.get("/userName", verifyToken, userName);
 
 module.exports = router;
